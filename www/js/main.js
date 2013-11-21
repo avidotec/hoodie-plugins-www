@@ -7,7 +7,7 @@
 
   function filterList () {
     var q = searchField.val().toLowerCase()
-      , plugins = $("a", pluginsList)
+      , plugins = $(".plugin", pluginsList)
 
     if (!q) return plugins.removeClass("hidden")
 
