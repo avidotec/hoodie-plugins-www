@@ -15,6 +15,8 @@
       var plugin = $(this)
       if (plugin.text().toLowerCase().indexOf(q) == -1) {
         plugin.addClass("hidden")
+      } else {
+        plugin.removeClass("hidden")
       }
     })
   }
