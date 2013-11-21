@@ -6,14 +6,25 @@
     , loading = $("#loading")
 
   function filterList () {
-    var q = searchField.val().toLowerCase()
+    var keywords = $.trim(searchField.val().toLowerCase())
       , plugins = $(".plugin", pluginsList)
 
-    if (!q) return plugins.removeClass("hidden")
+    if (!keywords) return plugins.removeClass("hidden")
+
+    keywords = keywords.split(" ")
 
     plugins.each(function () {
       var plugin = $(this)
-      if (plugin.text().toLowerCase().indexOf(q) == -1) {
+        , found = 0
+
+      for (var i = 0; i < keywords.length; i++) {
+        var keyword = $.trim(keywords[i])
+        if (keyword && plugin.text().toLowerCase().indexOf(keyword) > -1) {
+          found++
+        }
+      }
+
+      if (found != keywords.length) {
         plugin.addClass("hidden")
       } else {
         plugin.removeClass("hidden")
