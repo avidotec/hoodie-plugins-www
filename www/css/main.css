@@ -83,8 +83,23 @@
   }
 }
 footer {
-  padding: 60px 0;
+  padding: 60px 0 10px;
 }
-footer img {
+footer .social img {
   height: 22px;
+}
+footer .jitsu {
+  margin-top: 4em;
+}
+footer .jitsu a, footer .jitsu a:visited {
+  color: #999;
+}
+footer .jitsu a:hover {
+  text-decoration: none;
+  color: #444;
+}
+footer .jitsu img {
+  width: 100px;
+  display:inline-block;
+  margin-top: -6px;
 }

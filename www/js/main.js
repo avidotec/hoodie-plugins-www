@@ -51,11 +51,6 @@
         }
       })
 
-      if (plugins.length) {
-        searchField.prop("disabled", false)
-        $("#loading").hide()
-      }
-
       plugins.sort(function (a, b) {
         return a.time > b.time ? -1 : a.time < b.time ? 1 : 0
       })
@@ -63,6 +58,11 @@
       plugins = plugins.filter(function (p) {
         return p.id != "hoodie-plugin-plugins"
       })
+
+      if (plugins.length) {
+        searchField.prop("disabled", false)
+        $("#loading").hide()
+      }
 
       defer.then(filterList)
       defer.resolve({plugins: plugins})
