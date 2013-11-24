@@ -86,15 +86,31 @@ body {
   }
 }
 footer {
-  font-size: 10px;
   padding: 20px 0 60px;
+  text-align: center;
+}
+footer .hoodie li:before {
+  content: "·";
+  padding-right: 12px;
+}
+footer .hoodie li:first-child:before {
+  content: "";
+  padding-right: 0;
 }
 footer .social img {
   height: 22px;
 }
-@media (min-width: 768px) {
+@media (min-width: 990px) {
   footer {
     font-size: 1em;
+    text-align: left;
+  }
+  footer .hoodie, footer .social {
+    display: inline;
+  }
+  footer .social:before {
+    content: "·";
+    padding-right: 12px;
   }
   footer .jitsu {
     text-align: right;
