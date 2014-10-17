@@ -25,24 +25,7 @@
     </div>
   </header>
   <div id="loading" class="text-center"><span class="glyphicon glyphicon-repeat glyphicon-spin"></span></div>
-  <div id="plugins-list" class="list-group">
-    <script type="text/reactive-template">
-      {{#plugins}}
-      <a href="http://npmjs.org/package/{{id}}" class="list-group-item plugin">
-        <span class="badge">{{version}}</span>
-        <h2 class="list-group-item-heading">{{name}}</h2>
-        <p class="list-group-item-text">{{description}}</p>
-        <small class="maintainers">
-          Maintained by
-          {{#maintainers}}
-          <a href="http://npmjs.org/~{{name}}">{{name}}</a>
-          {{/maintainers}}
-        </small>
-        <div class="hidden">{{readme}}</div>
-      </a>
-      {{/plugins}}
-    </script>
-  </div>
+  <div id="plugins-list" class="list-group"></div>
   <footer class="container" role="contentinfo">
     <div class="col-md-6">
       <ul class="list-inline hoodie">
@@ -71,7 +54,27 @@
   <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
   <script src="/_api/_files/hoodie.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
   <script src="js/main.js?v=0"></script>
+  <script id="plugin" type="text/x-handlebars-template">
+    {{#each plugins}}
+    <a href="http://npmjs.org/package/{{id}}" class="list-group-item plugin">
+      <span class="badge">{{version}}</span>
+      <h2 class="list-group-item-heading">{{name}}</h2>
+      <p class="list-group-item-text">{{description}}</p>
+      {{#if maintainers}}
+        <small class="maintainers">
+          Maintained by
+          {{#maintainers}}
+          <a href="http://npmjs.org/~{{name}}">{{name}}</a>
+          {{/maintainers}}
+        </small>
+      {{/if}}
+      <div class="hidden">{{readme}}</div>
+    </a>
+    {{/each}}
+  </script>
+
   <script>
     var _gauges = _gauges || [];
     (function() {
@@ -84,6 +87,6 @@
       var s = document.getElementsByTagName('script')[0];
       s.parentNode.insertBefore(t, s);
     })();
-  </script> 
+  </script>
 </body>
 </html>

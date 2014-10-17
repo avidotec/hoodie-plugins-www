@@ -1,79 +1,88 @@
+'use strict';
+
 (function () {
-  var hoodie  = new Hoodie()
-    , store = hoodie.open("hoodie-plugin-plugins")
-    , pluginsList = $("#plugins-list")
-    , searchField = $("#search")
-    , loading = $("#loading")
+  var hoodie  = new window.Hoodie();
+  var store = hoodie.open("hoodie-plugin-plugins");
+  var pluginsList = $("#plugins-list");
+  var searchField = $("#search");
+  var loading = $("#loading");
 
   function filterList () {
-    var keywords = $.trim(searchField.val().toLowerCase())
-      , plugins = $(".plugin", pluginsList)
+    var keywords = $.trim(searchField.val().toLowerCase()),
+    plugins = $(".plugin", pluginsList);
 
-    if (!keywords) return plugins.removeClass("hidden")
+    if (!keywords) {
+      return plugins.removeClass("hidden");
+    }
 
-    keywords = keywords.split(" ")
+    keywords = keywords.split(" ");
 
     plugins.each(function () {
-      var plugin = $(this)
-        , found = 0
+      var plugin = $(this);
+      var found = 0;
 
       for (var i = 0; i < keywords.length; i++) {
-        var keyword = $.trim(keywords[i])
+        var keyword = $.trim(keywords[i]);
         if (keyword && plugin.text().toLowerCase().indexOf(keyword) > -1) {
-          found++
+          found++;
         }
       }
 
-      if (found != keywords.length) {
-        plugin.addClass("hidden")
+      if (found !== keywords.length) {
+        plugin.addClass("hidden");
       } else {
-        plugin.removeClass("hidden")
+        plugin.removeClass("hidden");
       }
-    })
+    });
+
   }
 
-  searchField.keyup(filterList)
+  searchField.keyup(filterList);
 
-  hoodie.reactive(pluginsList, $("script", pluginsList).text(), function (store) {
-    var defer = hoodie.defer()
+  var dfd = $.Deferred();
 
-    store.findAll("plugin").done(function (plugins) {
-      plugins.forEach(function (p) {
-        p.name = p.id.replace("hoodie-plugin-", "")
+  store.findAll("plugin").done(function (plugins) {
+    plugins.forEach(function (p) {
+      p.name = p.id.replace("hoodie-plugin-", "");
 
-        if (p.maintainers) {
-          p.maintainers = p.maintainers.map(function (m, i) {
-            if (Object.prototype.toString.call(m) == "[object String]") {
-              return {name: m.replace("=", "")}
-            }
-            return m
-          })
-        }
-      })
-
-      plugins.sort(function (a, b) {
-        return a.time > b.time ? -1 : a.time < b.time ? 1 : 0
-      })
-
-      plugins = plugins.filter(function (p) {
-        return p.id != "hoodie-plugin-plugins"
-      })
-
-      if (plugins.length) {
-        searchField.prop("disabled", false)
-        $("#loading").hide()
+      if (p.maintainers) {
+        p.maintainers = p.maintainers.map(function (m, i) {
+          if (Object.prototype.toString.call(m) === '[object String]') {
+            return {name: m.replace("=", "")};
+          }
+          return m;
+        });
       }
+    });
 
-      defer.then(filterList)
-      defer.resolve({plugins: plugins})
-    })
+    plugins.sort(function (a, b) {
+      return a.time > b.time ? -1 : a.time < b.time ? 1 : 0;
+    }),
 
-    return defer.promise()
-  }, {store: store})
+    plugins = plugins.filter(function (p) {
+      return p.id !== 'hoodie-plugin-plugins';
+    });
 
-  store.connect()
+    if (plugins.length) {
+      searchField.prop("disabled", false);
+      $("#loading").hide();
+    }
 
-  loading.addClass("fade-in")
+    dfd.then(filterList);
+    dfd.resolve({plugins: plugins});
+  });
 
-})()
+  dfd.promise();
+
+  dfd.then(function (data) {
+    var source = $('#plugin').html();
+    $('#plugins-list').append(Handlebars.compile(source)(data));
+  });
+
+
+  store.connect();
+
+  loading.addClass("fade-in");
+
+})();
 
