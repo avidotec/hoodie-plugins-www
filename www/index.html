@@ -40,15 +40,6 @@
       </ul>
     </div>
     <div class="col-md-6">
-      <ul class="list-inline jitsu">
-        <li>
-          <a href="http://opensource.nodejitsu.com/" title="Apply for the Nodejitsu free for Open Source program">
-          Hosted by
-          <img src="img/nodejitsu.png" alt="nodejitsu logo"/>
-          free for open source program
-          </a>
-        </li>
-      </ul>
     </div>
   </footer>
   <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -62,14 +53,14 @@
       <span class="badge">{{version}}</span>
       <h2 class="list-group-item-heading">{{name}}</h2>
       <p class="list-group-item-text">{{description}}</p>
-      {{#if maintainers}}
+      <!-- {{#if maintainers}}
         <small class="maintainers">
           Maintained by
           {{#maintainers}}
           <a href="http://npmjs.org/~{{name}}">{{name}}</a>
           {{/maintainers}}
         </small>
-      {{/if}}
+      {{/if}} -->
       <div class="hidden">{{readme}}</div>
     </a>
     {{/each}}
